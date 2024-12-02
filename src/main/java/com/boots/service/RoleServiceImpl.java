@@ -56,7 +56,6 @@ public class RoleServiceImpl implements RoleService {
 
         roleDao.edit(role);
     }
-    //изменён на обёртку в связи с последнем замечанием в 2.3.1
     @Override
     @Transactional(readOnly = true)
     public Role getById(Long id) {

@@ -45,20 +45,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception { // конфиги в которых указывается доступы пользователей
+    protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() //  защита от CSRF-атак( типо подставного сайта где злоумышленник его использует и заставляет
-                // от имени пользователя отправлять пароли, деньги со счёта на счёт и т.п
-                .authorizeRequests() //авторизацуем запрос
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/login", "/").permitAll()
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN") //прописываем доступ для юрл /user/**
-                .antMatchers("/admin/**").hasRole("ADMIN") //прописываем доступ для юрл /admin/**
-                .anyRequest().authenticated() // все запросы должны быть авторизованы и аутентифицированы
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                .formLogin() // задаю форму для ввода логина-пароля, по дефолту это "/login"
+                .formLogin()
                 .successHandler(successUserHandler)
-                .permitAll() // доступно всем
+                .permitAll()
                 .and()
-                .logout().permitAll(); // настройка логаута
+                .logout().permitAll();
     }
 }
