@@ -19,7 +19,7 @@ import java.util.*;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
 
@@ -44,7 +44,7 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.JOIN) //охотная загрузка
     @JoinTable(name = "users_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -60,15 +60,9 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-
-        return password;
-    }
-
-    @Override
     public String getUsername() {
 
-        return getEmail();
+        return email;
     }
 
     @Override

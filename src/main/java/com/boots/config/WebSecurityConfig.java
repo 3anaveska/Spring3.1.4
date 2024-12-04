@@ -13,33 +13,35 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SuccessUserHandler successUserHandler;
     private final UserDetailsService userDetailsService;
+    private final PasswordConfig passwordConfig;
 
     @Autowired
     public WebSecurityConfig(SuccessUserHandler successUserHandler,
-                             @Qualifier("userServiceImpl") UserDetailsService userDetailsService) {
+                             PasswordConfig passwordConfig,
+                             @Qualifier("userServiceImp") UserDetailsService userDetailsService) {
         this.successUserHandler = successUserHandler;
         this.userDetailsService = userDetailsService;
+        this.passwordConfig = passwordConfig;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.authenticationProvider(daoAuthenticationProvider());
     }
-    @Autowired  PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(12);
-    }
+
 
 
     @Bean
     protected DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setPasswordEncoder(passwordConfig.passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
