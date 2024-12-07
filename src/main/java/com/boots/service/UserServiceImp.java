@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 
@@ -32,6 +33,7 @@ public class UserServiceImp implements UserService{
     @Override
     @Transactional
     public User update(User user) {
+        user.setPassword(null);
         return userRepository.save(user);
     }
 
@@ -39,7 +41,7 @@ public class UserServiceImp implements UserService{
     @Transactional
     public void delete(Long id) {
         User existingUser = (User) userRepository.findById(id).orElseThrow(
-                ()-> new RuntimeException("Пользователь не найден с помощью метода удаления в классе UserServiceImp"));
+                ()-> new EntityNotFoundException("Пользователь не найден с помощью метода удаления в классе UserServiceImp"));
         userRepository.delete(existingUser);
     }
     @Override
@@ -53,7 +55,7 @@ public class UserServiceImp implements UserService{
     @Transactional(readOnly = true)
     public User getById(Long id) {
         return (User) userRepository.findById(id).orElseThrow(
-                ()-> new RuntimeException("Пользователь с таким id не найден в классе UserServiceImp"));
+                ()-> new EntityNotFoundException("Пользователь с таким id не найден в классе UserServiceImp"));
     }
 
     @Override

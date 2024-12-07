@@ -326,7 +326,7 @@ const URLUser = 'http://localhost:8086/api/user';
 const userPanelData      = document.getElementById("user_panel-data");
 const authorisedUserData = document.getElementById("authorised_user-data");
 
-function currentUser () {
+let currentUser = () =>  {
     fetch (URLUser, {
         method: 'GET',
         headers: {
@@ -343,11 +343,11 @@ function currentUser () {
                         <td> ${user.lastName} </td>
                         <td> ${user.age} </td>
                         <td> ${user.email} </td>
-                        <td> ${user.roles.map((role) => role.name === "ROLE_USER" ? "Юзер" : "Админ")} </td>
+                        <td> ${user.roles.map((role) => role.name === "ROLE_USER")} </td>
                     </tr>
                 `
                 authorisedUserData.innerHTML = `
-                    <p class="d-inline font-weight-bold">${user.email} с ролями ${user.roles.map((role) => role.name === "ROLE_USER" ? " Юзер" : " Админ")}</p>`
+                    <p class="d-inline font-weight-bold">${user.email} с ролями ${user.roles.map((role) => role.name === "ROLE_USER")}</p>`
             }
         })
 }
