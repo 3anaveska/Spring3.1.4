@@ -33,7 +33,6 @@ public class UserServiceImp implements UserService{
     @Override
     @Transactional
     public User update(User user) {
-        user.setPassword(null);
         return userRepository.save(user);
     }
 
