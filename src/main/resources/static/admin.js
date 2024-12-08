@@ -245,7 +245,6 @@ allUsersTable.addEventListener("click", e => {
                 editUsersLastName.value = user.lastName;
                 editUsersAge.value      = user.age;
                 editUsersEmail.value    = user.email;
-                editUsersPassword.value = user.password;
 
                 let editRoles = user.roles.map(i => i.roleName)
                 editRoles.forEach(
