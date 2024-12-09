@@ -27,12 +27,14 @@ public class UserServiceImp implements UserService{
     @Override
     @Transactional
     public User add(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
     @Transactional
     public User update(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
