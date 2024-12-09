@@ -37,16 +37,6 @@ public class AdminRestController {
     public ResponseEntity <User> getUserById (@PathVariable ("id") Long id) {
         return ResponseEntity.ok(userService.getById(id));
     }
-    @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody UserDetails getAuthUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) {
-            return null;
-        }
-        Object principal = auth.getPrincipal();
-        User user = (principal instanceof User) ? (User) principal : null;
-        return Objects.nonNull(user) ? this.userService.loadUserByUsername(user.getUsername()) : null;
-    }
 
     @PostMapping
     public ResponseEntity<User> addUser (@RequestBody User user) {
